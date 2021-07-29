@@ -1,0 +1,24 @@
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<sys/mman.h>
+#include<unistd.h>
+#include<fcntl.h>
+
+int *count;
+int num;
+
+int main(){
+
+int shmd;
+shmd=shm_open("/dheeraj", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+ftruncate(shmd, sizeof(int));
+count = (int *)mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, shmd, 0);
+
+while(1){
+  scanf("%d", &num);
+  *count=num;
+}
+return 0;
+}
+
